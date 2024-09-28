@@ -1,0 +1,5 @@
+# Ignore un fichier spécifique
+1_decompte_heures
+2_decompte_heures
+Pipfile
+Pipfile.lock
