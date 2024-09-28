@@ -58,7 +58,12 @@ if __name__ == "__main__":
     dfs_par_id = dict(list(merged_df.groupby('employe')))
 
     pisa.showLogging()
-
+ 
     for id, df in dfs_par_id.items():
-        convert_html_to_pdf(template, df, str(id) + "_decompte_heures.pdf")
-        # pdf_content = generate_pdf_for_employee(df, template)
+        df.drop('employe', axis=1, inplace=True)
+        df['date'] = df['date'].dt.strftime('%d-%m-%Y')
+        df = df[['prenom', 'nom', 'mois', 'semaine', 'date', 'chantier', 'heures', 'chauffeur', 'passager', 'zone']]
+        df = df.sort_values(by='date')
+        df = df.fillna(0)
+        df['Check'] = np.where(df['chauffeur'] + df['passager'] > 1 , 'ERREUR chauffeur ou passager', 'OK')
+        convert_html_to_pdf(template, df, str(df['prenom'].unique()[0]) + "_" + str(df['nom'].unique()[0]) + "_" + str(df['mois'].unique()[0]) + "_decompte_heures.pdf")
