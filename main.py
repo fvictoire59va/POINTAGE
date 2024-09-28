@@ -39,7 +39,7 @@ if __name__ == "__main__":
     aggregated_df_jour = df_pointage.groupby(['id_employe', 'weeknumber','date']).agg({'nb_heure': 'sum', 'conducteur': 'sum', 'passager': 'sum'})
     aggregated_df_jour['repas'] = np.where(aggregated_df_jour['nb_heure'] >= 5, 1, 0)
 
-    df_employe = lire_xlsx('employe.xlsx')
+    df_employe = lire_xlsx('data/employe.xlsx')
 
     # jointure sur la table de depart sur la semaine et l'employe
     merged_df = pd.merge(df_pointage, df_employe, on=['id_employe'], how='left')
