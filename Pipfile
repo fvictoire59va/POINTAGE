@@ -8,6 +8,7 @@ pandas = "*"
 numpy = "*"
 xhtml2pdf = "*"
 jinja2 = "*"
+openpyxl = "*"
 
 [dev-packages]
 

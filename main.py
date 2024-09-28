@@ -21,17 +21,16 @@ def lire_xlsx(nom_du_fichier):
         pass
     return df
 
-# Fonction pour générer un PDF pour un employé
-def generate_pdf_for_employee(employe, template):
-    html = template.render(employe=employe)
-    result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
-    if not pdf.err:
-        result.seek(0)
-        return result.getvalue()
-    else:
-        print(f"Erreur lors de la création du PDF pour {employe['Nom']}: {pdf.err}")
-        return None
+# Utility function
+def convert_html_to_pdf(template, df, output_filename):
+    source_html = template.render(df=df)
+    result_file = open(output_filename, "w+b")
+    pisa_status = pisa.CreatePDF(
+            source_html,                # the HTML to convert
+            dest=result_file)           # file handle to recieve result
+    result_file.close()
+
+    return pisa_status.err
 
 if __name__ == "__main__":
     df_pointage = lire_xlsx('data/pointage.xlsx')
@@ -52,13 +51,14 @@ if __name__ == "__main__":
                     'passager': 'passager'
                     })
 
-    # print(merged_df)
-
     # Configuration de Jinja2 pour charger le template
     env = Environment(loader=FileSystemLoader('.'))
     template = env.get_template('template/pointage_jour.html')
 
     dfs_par_id = dict(list(merged_df.groupby('employe')))
 
+    pisa.showLogging()
+
     for id, df in dfs_par_id.items():
-        pdf_content = generate_pdf_for_employee(df, template)
+        convert_html_to_pdf(template, df, str(id) + "_decompte_heures.pdf")
+        # pdf_content = generate_pdf_for_employee(df, template)
