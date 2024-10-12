@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pointage jour</title>
+    <title>Pointage</title>
     <style>
         table {
             border-collapse: collapse;
@@ -15,20 +15,24 @@
         th {
             background-color: #f2f2f2;
         }
-        .odd-row { color: blue; }
-        .even-row { color: red; }
+        .center-text {
+            text-align: center;
+        }
+        .wrap-text {
+            white-space: normal; /* ou pre-wrap si vous voulez conserver les espaces et retours à la ligne du texte source */
+        }   
     </style>
 </head>
 <body>
     <h1>Pointage jour</h1>
     <table>
-        <tr>
+        <tr class="wrap-text">
             {% for col in df.columns %}
                 <th>{{ col }}</th>
             {% endfor %}
         </tr>
         {% for idx, row in df.iterrows() %}
-        <tr class="{{ 'odd-row' if idx % 2 != 0 else 'even-row' }}">
+        <tr>
             {% for cell in row %}
                 <td>{{ cell }}</td>
             {% endfor %}
