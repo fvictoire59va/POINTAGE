@@ -1,5 +1,4 @@
 # Ignore un fichier spécifique
-1_decompte_heures
-2_decompte_heures
+result/*
 Pipfile
 Pipfile.lock
