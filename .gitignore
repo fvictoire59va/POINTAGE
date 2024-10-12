@@ -1,4 +1,4 @@
 # Ignore un fichier spécifique
-result/*
+result/
 Pipfile
 Pipfile.lock
