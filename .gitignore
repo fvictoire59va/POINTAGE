@@ -1,4 +1,4 @@
 # Ignore un fichier spécifique
-result/Christophe_Cuelle_août_decompte_heures_jours.pdf
+result/*
 Pipfile
 Pipfile.lock
