@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pointage</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            /* width: auto; */
+        }
+        th, td {
+            border: 1px solid black;
+            text-align: left;
+            padding: 3px;
+            margin: 0;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .center-text {
+            text-align: center;
+        }
+        .wrap-text {
+            white-space: normal; /* ou pre-wrap si vous voulez conserver les espaces et retours à la ligne du texte source */
+        }   
+    </style>
+</head>
+<body>
+    <h1>Pointage {{ unite_temps }}</h1>
+    <table>
+        {% for idx, row in df.iterrows() %}
+        <tr>
+            <th>{{ idx }}</th>
+            {% for cell in row %}
+                <td>{{ cell }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
