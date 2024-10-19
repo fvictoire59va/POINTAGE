@@ -5,7 +5,6 @@
     <style>
         table {
             border-collapse: collapse;
-            width: 100%;
         }
         th, td {
             border: 1px solid black;
@@ -20,11 +19,15 @@
         }
         .wrap-text {
             white-space: normal; /* ou pre-wrap si vous voulez conserver les espaces et retours à la ligne du texte source */
-        }   
+        }
+        .table_zone {
+            width: 500px;
+        }
     </style>
 </head>
 <body>
     <h1>Pointage {{ unite_temps }}</h1>
+    <DIV>
     <table>
         <tr class="wrap-text">
             {% for col in df.columns %}
@@ -32,12 +35,30 @@
             {% endfor %}
         </tr>
         {% for idx, row in df.iterrows() %}
+            <tr>
+                {% for cell in row %}
+                    <td>{{ cell }} </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    </DIV>
+<BR>
+<BR>
+    <DIV>
+    {% if df_zone is not none %}
+    <table class="table_zone">
+        {% for idx, row in df_zone.iterrows() %}
         <tr>
+            <th style="padding: 2px;">{{ idx }}</th>
             {% for cell in row %}
-                <td>{{ cell }}</td>
+                <td style="padding: 2px;">{{ cell }}</td>
             {% endfor %}
         </tr>
         {% endfor %}
     </table>
+    {% else %}
+    {% endif %}
+    </DIV>
 </body>
 </html>
