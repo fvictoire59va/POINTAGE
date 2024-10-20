@@ -143,20 +143,7 @@ if __name__ == "__main__":
         convert_html_to_pdf(template, df, path_filename, "semaine")
     
     # aggrégé au mois pour obtenir la fiche de salaire, par employé
-    for df_employe in id_employe_list:
-        df = aggregated_df_jour[aggregated_df_jour['id_employe']==df_employe]
-        df = df[['mois', 'zone', 'chauffeur', 'trajet', 'transport', 'id_employe', ]]
-        df_zone_count = pd.DataFrame(columns=['zone 1', 'zone 2', 'zone 3', 'zone 4', 'zone 5', 'zone 6', 'zone 7'])
-        df_zone_count.loc[len(df_zone_count)] = [df['zone'].value_counts().get(1, 0),
-                                                df['zone'].value_counts().get(2, 0), 
-                                                df['zone'].value_counts().get(3, 0), 
-                                                df['zone'].value_counts().get(4, 0), 
-                                                df['zone'].value_counts().get(5, 0), 
-                                                df['zone'].value_counts().get(6, 0),
-                                                df['zone'].value_counts().get(7, 0),
-                                            ]
-        df_transposed = df_zone_count.T
-    print(df_transposed)
+
     aggregat = {'prenom': 'min', 
                 'nom': 'min' , 
                 'heures': 'sum', 
@@ -178,7 +165,22 @@ if __name__ == "__main__":
     
     columns = ['prenom', 'nom', 'mois', 'heures', 'chauffeur', 'trajet', 'transport', 'repas', 'heures supp']
     for df_employe in id_employe_list:
+        
+        # calcul du nombre de zone
+        df = aggregated_df_jour[aggregated_df_jour['id_employe']==df_employe]
+        df = df[['zone', 'chauffeur', 'trajet', 'transport']]
+        aggregat = {'chauffeur': 'sum', 
+                    'trajet': 'sum',
+                    'transport': 'sum'
+                }
+        df_zone = (df
+                .groupby('zone')
+                .agg(aggregat)
+                .reset_index()
+                .astype(int)
+        )
+        
         df = merged_df_mois[merged_df_mois['id_employe']==df_employe]
         df = df[columns]
         path_filename = "output/"+ annee + "/" + mois + "/mois/" + str(df['prenom'].unique()[0]) + "_" + str(df['nom'].unique()[0]) + ".pdf"
-        convert_html_to_pdf(template, df, path_filename, "mois", df_transposed) 
+        convert_html_to_pdf(template, df, path_filename, "mois", df_zone) 

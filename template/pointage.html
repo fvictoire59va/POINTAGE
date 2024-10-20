@@ -48,9 +48,13 @@
     <DIV>
     {% if df_zone is not none %}
     <table class="table_zone">
+        <tr class="wrap-text">
+            {% for col in df_zone.columns %}
+                <th>{{ col }}</th>
+            {% endfor %}
+        </tr>
         {% for idx, row in df_zone.iterrows() %}
         <tr>
-            <th style="padding: 2px;">{{ idx }}</th>
             {% for cell in row %}
                 <td style="padding: 2px;">{{ cell }}</td>
             {% endfor %}
