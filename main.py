@@ -5,7 +5,6 @@ import warnings
 
 from xhtml2pdf import pisa
 from jinja2 import Environment, FileSystemLoader
-import pprint
 
 # pd.set_option('future.no_silent_downcasting', True)
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -52,6 +51,7 @@ def convert_html_to_pdf(template, df, output_filename, unite_temps, df_zone=None
     return pisa_status.err
 
 if __name__ == "__main__":
+    
     annee = '2024'
     mois = 'juin'
     df_pointage = lire_xlsx('data/input/POINTAGE_JUIN_2024.xlsx')
@@ -104,7 +104,7 @@ if __name__ == "__main__":
         path_filename = "output/"+ annee + "/" + mois + "/jour/" + str(df['prenom'].unique()[0]) + "_" + str(df['nom'].unique()[0]) + ".pdf"
         convert_html_to_pdf(template, df, path_filename, "jour")
 
-    # # aggrégé a la semaine pour calculer les heures supplémentaires, par employé
+    # aggrégé a la semaine pour calculer les heures supplémentaires, par employé
     aggregats = {'prenom': 'min', 
                  'nom': 'min' , 
                  'heures': 'sum', 
@@ -113,15 +113,18 @@ if __name__ == "__main__":
                  'transport': 'sum',
                  'repas': 'sum'
                 }
+    
     pivot = ['id_employe', 
              'mois', 
              'semaine'
             ]
+    
     merged_df_semaine = (aggregated_df_jour
                          .groupby(pivot)
                          .agg(aggregats)
                          .reset_index()
     )
+    
     merged_df_semaine['heures supp'] = np.where(merged_df_semaine['heures'] > 35 , merged_df_semaine['heures'] - 35, 0)
     columns = ['prenom', 
                'nom', 
@@ -134,6 +137,7 @@ if __name__ == "__main__":
                'repas', 
                'heures supp'
             ]
+    
     # pour chaque employé, genere un pdf constitué d'un tableau hebdomadaire
     for df_employe in id_employe_list:
         df = merged_df_semaine[merged_df_semaine['id_employe']==df_employe]
@@ -157,6 +161,7 @@ if __name__ == "__main__":
     pivot = ['id_employe', 
              'mois'
             ]
+    
     merged_df_mois = (merged_df_semaine
                       .groupby(pivot)
                       .agg(aggregat)
@@ -173,6 +178,7 @@ if __name__ == "__main__":
                     'trajet': 'sum',
                     'transport': 'sum'
                 }
+        
         df_zone = (df
                 .groupby('zone')
                 .agg(aggregat)
