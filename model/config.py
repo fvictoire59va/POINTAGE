@@ -19,3 +19,4 @@ class Config:
         self.bdd = config.get('DATABASE', 'bdd')
         self.employes_path = config.get('EXCEL_FILES', 'employes')
         self.chantiers_path = config.get('EXCEL_FILES', 'chantiers')
+        self.pointages_path = config.get('EXCEL_FILES', 'pointages')

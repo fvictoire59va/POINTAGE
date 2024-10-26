@@ -1,0 +1,7 @@
+2024-10-26 19:18:30,344 - __main__ - INFO - Load configuration file....
+2024-10-26 19:18:30,470 - root - INFO - Calling function 'upsert'
+2024-10-26 19:18:30,490 - root - INFO - Function 'upsert' finished execution
+2024-10-26 19:18:30,498 - root - INFO - Calling function 'upsert'
+2024-10-26 19:18:30,519 - root - INFO - Function 'upsert' finished execution
+2024-10-26 19:18:30,538 - root - INFO - Calling function 'upsert'
+2024-10-26 19:18:30,559 - root - INFO - Function 'upsert' finished execution
